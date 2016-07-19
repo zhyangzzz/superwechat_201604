@@ -131,11 +131,12 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </RelativeLayout>
-    <Button
+    <TextView
+        android:clickable="true"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="设置服务器的ip地址"
-        android:background="@string/isnull"
+        android:textSize="20sp"
         android:textColor="#000"/>
-
 </LinearLayout>
