@@ -2,6 +2,7 @@ package cn.ucai.superwechat.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class UserUtils {
      * @param username
      * @return
      */
+	private final static String TAG = UserUtils.class.getSimpleName();
     public static User getUserInfo(String username){
         User user = ((DemoHXSDKHelper) HXSDKHelper.getInstance()).getContactList().get(username);
         if(user == null){
@@ -110,6 +112,7 @@ public class UserUtils {
 				.append(I.NAME_OR_HXID).append(I.EQUALS).append(username)
 				.append(I.AND)
 				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_USER_PATH);
+		Log.e(TAG,"path="+path.toString());
 		return path.toString();
 
 	}
