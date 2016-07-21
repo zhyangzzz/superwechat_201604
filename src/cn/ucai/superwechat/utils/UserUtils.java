@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import cn.ucai.superwechat.I;
 import cn.ucai.superwechat.applib.controller.HXSDKHelper;
 import cn.ucai.superwechat.DemoHXSDKHelper;
 import cn.ucai.superwechat.R;
@@ -88,5 +89,28 @@ public class UserUtils {
 		}
 		((DemoHXSDKHelper) HXSDKHelper.getInstance()).saveContact(newUser);
 	}
-    
+
+	public static void setAppUserAvatar(Context context,String username,ImageView imageView) {
+		String path = "";
+		if (path != null && username!= null) {
+			path = getUserAvatarPath(username);
+			Picasso.with(context).load(path).placeholder(R.drawable.default_avatar).into(imageView);
+		} else {
+			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
+		}
+	}
+
+	private static String getUserAvatarPath(String username) {
+		StringBuilder path = new StringBuilder(I.SERVER_ROOT);
+		path.append(I.QUESTION).append(I.KEY_REQUEST)
+				.append(I.EQUALS).append(I.REQUEST_DOWNLOAD_AVATAR)
+				.append(I.AND)
+				.append(I.NAME_OR_HXID).append(I.EQUALS).append(username)
+				.append(I.AND)
+				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_USER_PATH);
+		return path.toString();
+
+	}
+
+
 }

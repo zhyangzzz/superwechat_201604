@@ -227,6 +227,7 @@ public class LoginActivity extends BaseActivity {
 		SuperWeChatApplication.getInstance().setPassword(currentPassword);
 		SuperWeChatApplication.getInstance().setUser(user);
 		SuperWeChatApplication.currentUserNick = user.getMUserNick();
+		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
 
 

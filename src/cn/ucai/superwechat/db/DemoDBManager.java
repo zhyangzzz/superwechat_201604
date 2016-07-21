@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+import android.util.Log;
 
 import cn.ucai.superwechat.Constant;
 import cn.ucai.superwechat.I;
@@ -20,6 +21,7 @@ import cn.ucai.superwechat.domain.User;
 import com.easemob.util.HanziToPinyin;
 
 public class DemoDBManager {
+    private static final String TAG = DemoDBManager.class.getSimpleName();
     static private DemoDBManager dbMgr = new DemoDBManager();
     private DbOpenHelper dbHelper;
     
@@ -352,6 +354,7 @@ public class DemoDBManager {
      * @param user
      */
     synchronized public void saveUserAvatar(UserAvatar user){
+        Log.e(TAG,"user="+user);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(UserDao.USER_COLUMN_NAME_ID,user.getMUserName() );
@@ -360,8 +363,9 @@ public class DemoDBManager {
         values.put(UserDao.USER_COLUMN_AVATAR_TYPE, user.getMAvatarType());
         values.put(UserDao.USER_COLUMN_AVATAR_PATH, user.getMAvatarPath());
         values.put(UserDao.USER_COLUMN_AVATAR_LAST_UPDATE_TIME, user.getMAvatarLastUpdateTime());
-        db.replace(UserDao.USER_TABLE_NAME, null, values);
-
+        if(db.isOpen()) {
+            db.replace(UserDao.USER_TABLE_NAME, null, values);
+        }
     }
 
 

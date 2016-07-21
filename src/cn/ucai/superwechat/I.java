@@ -4,6 +4,7 @@ public interface I {
 
 
 
+
 	interface User {
 		String TABLE_NAME							=		"t_superwechat_user";
 		String USER_NAME 							= 		"m_user_name";					//用户账号
@@ -84,6 +85,7 @@ public interface I {
 	String AVATAR_SUFFIX_JPG						=		".jpg";							//JPG图片后缀名
 	String QUESTION                                 =       "?";                            //问号
 	String EQUALS                                   =       "=";                            //等号
+	String AND                                      =       "&";                            //&符号
 	String MSG_PREFIX_MSG                           =       "msg_";                         //消息码前缀
 	int LOCATION_IS_SEARCH_ALLOW					=		1;								//可以被搜索到地理位置
 	int LOCATION_IS_SEARCH_INHIBIT					=		0;								//禁止被搜索到地理位置
