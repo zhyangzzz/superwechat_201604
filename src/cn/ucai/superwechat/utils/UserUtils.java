@@ -145,14 +145,21 @@ public class UserUtils {
 
 	public static void setAppUserNick(String username,TextView textView){
 		UserAvatar user = getAppUserInfo(username);
+		setAppUserNick(user,textView);
+	}
+
+	/**
+	 * 设置用户的昵称
+	 * @param user
+	 * @param textView
+     */
+	public static void setAppUserNick(UserAvatar user,TextView textView){
 		if(user != null){
 			if (user.getMUserNick()!=null) {
 				textView.setText(user.getMUserNick());
 			}else{
-				textView.setText(username);
+				textView.setText(user.getMUserName());
 			}
-		}else{
-			textView.setText(username);
 		}
 	}
 
