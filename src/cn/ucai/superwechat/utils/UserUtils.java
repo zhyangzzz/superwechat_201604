@@ -137,6 +137,12 @@ public class UserUtils {
 
 	}
 
+	/**
+	 * 设置用户好友的昵称
+	 * @param username
+	 * @param textView
+     */
+
 	public static void setAppUserNick(String username,TextView textView){
 		UserAvatar user = getAppUserInfo(username);
 		if(user != null){
