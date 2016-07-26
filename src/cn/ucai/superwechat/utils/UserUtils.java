@@ -123,6 +123,15 @@ public class UserUtils {
 			Picasso.with(context).load(R.drawable.default_avatar).into(imageView);
 		}
 	}
+	public static void setAppGroupAvatar(Context context,String hxid,ImageView imageView) {
+		String path = "";
+		if (path != null && hxid!= null) {
+			path = getGroupAvatarPath(hxid);
+			Picasso.with(context).load(path).placeholder(R.drawable.group_icon).into(imageView);
+		} else {
+			Picasso.with(context).load(R.drawable.group_icon).into(imageView);
+		}
+	}
 
 	public static String getUserAvatarPath(String username) {
 		StringBuilder path = new StringBuilder(I.SERVER_ROOT);
@@ -132,6 +141,18 @@ public class UserUtils {
 				.append(I.NAME_OR_HXID).append(I.EQUALS).append(username)
 				.append(I.AND)
 				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_USER_PATH);
+		Log.e(TAG,"path="+path.toString());
+		return path.toString();
+
+	}
+	public static String getGroupAvatarPath(String hxid) {
+		StringBuilder path = new StringBuilder(I.SERVER_ROOT);
+		path.append(I.QUESTION).append(I.KEY_REQUEST)
+				.append(I.EQUALS).append(I.REQUEST_DOWNLOAD_AVATAR)
+				.append(I.AND)
+				.append(I.NAME_OR_HXID).append(I.EQUALS).append(hxid)
+				.append(I.AND)
+				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_GROUP_PATH);
 		Log.e(TAG,"path="+path.toString());
 		return path.toString();
 
