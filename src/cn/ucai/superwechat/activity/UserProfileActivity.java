@@ -94,7 +94,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		if (username == null||username.equals(EMChatManager.getInstance().getCurrentUser())) {
 			tvUsername.setText(EMChatManager.getInstance().getCurrentUser());
 			UserUtils.setAppCurrentUserNick(tvNickName);
-			UserUtils.setAppUserAvatar(this,EMChatManager.getInstance().getCurrentUser(),headAvatar);
+			UserUtils.setCurrentUserAvatar(this,headAvatar);
 		}  else {
 			tvUsername.setText(username);
 			UserUtils.setAppUserNick(username, tvNickName);
@@ -108,7 +108,8 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		switch (v.getId()) {
 		case R.id.user_head_avatar:
 			//uploadHeadPhoto();
-			mOnSetAvatarListener = new OnSetAvatarListener(UserProfileActivity.this,R.id.layout_upload_avatar,getAvatarName(),I.AVATAR_TYPE_USER_PATH);
+			mOnSetAvatarListener = new OnSetAvatarListener(UserProfileActivity.this,R.id.layout_upload_avatar,
+					getAvatarName(),I.AVATAR_TYPE_USER_PATH);
 			break;
 		case R.id.rl_nickname:
 			final EditText editText = new EditText(this);
@@ -168,7 +169,6 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 							dialog.dismiss();
 						}
 					}
-
 					@Override
 					public void onError(String error) {
 						Log.e(TAG,"error="+error);
@@ -308,6 +308,9 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 						Log.e(TAG,"result="+result);
 						if (result.isRetMsg()){
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success), Toast.LENGTH_SHORT)
+									.show();
+						}else{
+							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail), Toast.LENGTH_SHORT)
 									.show();
 						}
 					}
