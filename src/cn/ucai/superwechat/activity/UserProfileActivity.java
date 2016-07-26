@@ -288,11 +288,11 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 		mOnSetAvatarListener.setAvatar(requestCode, data, headAvatar);
 		if (requestCode==OnSetAvatarListener.REQUEST_CROP_PHOTO) {
 			Log.e(TAG,"upload avatar to app server");
-			uploadUserAvatar();
+			uploadUserAvatar(data);
 		}
 	}
 
-	private void uploadUserAvatar() {
+	private void uploadUserAvatar(final Intent data) {
 		File file = new File(OnSetAvatarListener.getAvatarPath(UserProfileActivity.this,I.AVATAR_TYPE_USER_PATH),
 				avatarName+I.AVATAR_SUFFIX_JPG);
 		String username = SuperWeChatApplication.getInstance().getUserName();
@@ -307,8 +307,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					public void onSuccess(Result result) {
 						Log.e(TAG,"result="+result);
 						if (result.isRetMsg()){
-							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success), Toast.LENGTH_SHORT)
-									.show();
+							setPicToView(data);
 						}else{
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_fail), Toast.LENGTH_SHORT)
 									.show();
@@ -364,6 +363,7 @@ public class UserProfileActivity extends BaseActivity implements OnClickListener
 					public void run() {
 						dialog.dismiss();
 						if (avatarUrl != null) {
+							Log.e(TAG,"avatarUrl="+avatarUrl);
 							Toast.makeText(UserProfileActivity.this, getString(R.string.toast_updatephoto_success),
 									Toast.LENGTH_SHORT).show();
 						} else {
