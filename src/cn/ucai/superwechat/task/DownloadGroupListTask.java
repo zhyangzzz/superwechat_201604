@@ -16,10 +16,9 @@ import cn.ucai.superwechat.data.OkHttpUtils2;
 import cn.ucai.superwechat.utils.Utils;
 
 /**
- * Created by Administrator on 2016/7/20.
+ * Created by Administrator on 2016/7/21.
  */
 public class DownloadGroupListTask {
-    private static final String TAG = DownloadGroupListTask.class.getSimpleName();
     String username;
     Context mContext;
 
@@ -27,7 +26,6 @@ public class DownloadGroupListTask {
         mContext = context;
         this.username = username;
     }
-
     public void execute(){
         final OkHttpUtils2<String> utils = new OkHttpUtils2<String>();
         utils.setRequestUrl(I.REQUEST_FIND_GROUP_BY_USER_NAME)
@@ -36,20 +34,24 @@ public class DownloadGroupListTask {
                 .execute(new OkHttpUtils2.OnCompleteListener<String>() {
                     @Override
                     public void onSuccess(String s) {
-                        Log.e(TAG,"s="+s);
-                        Result result = Utils.getListResultFromJson(s, GroupAvatar.class);
-                        Log.e(TAG,"result="+result);
+                        Log.i("main","s="+s);
+                        Utils.getResultFromJson(s, UserAvatar.class);
+                        Result result =  Utils.getListResultFromJson(s,GroupAvatar.class);
+                        Log.i("main","result="+result);
                         List<GroupAvatar> list = (List<GroupAvatar>) result.getRetData();
-                        Log.e(TAG,"list="+list);
-                        if (list!=null && list.size()>0){
-                            Log.e(TAG,"list.size="+list.size());
+                        if(list!=null && list.size()>0){
+                            Log.i("main","List.Size="+list.size());
                             SuperWeChatApplication.getInstance().setGroupList(list);
+                            for(GroupAvatar g:list ){
+                                SuperWeChatApplication.getInstance().getGroupMap().put(g.getMGroupHxid(),g);
+                            }
                             mContext.sendStickyBroadcast(new Intent("update_group_list"));
                         }
                     }
+
                     @Override
                     public void onError(String error) {
-                        Log.e(TAG,"error="+error);
+                        Log.i("main","error= "+error);
                     }
                 });
     }

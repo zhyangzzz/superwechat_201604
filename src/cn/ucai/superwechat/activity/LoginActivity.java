@@ -54,6 +54,7 @@ import cn.ucai.superwechat.db.UserDao;
 import cn.ucai.superwechat.domain.User;
 import cn.ucai.superwechat.task.DownloadContactListTask;
 import cn.ucai.superwechat.task.DownloadGroupListTask;
+import cn.ucai.superwechat.task.DownloadMemberMapTask;
 import cn.ucai.superwechat.utils.CommonUtils;
 import cn.ucai.superwechat.utils.UserUtils;
 import cn.ucai.superwechat.utils.Utils;
@@ -269,7 +270,6 @@ public class LoginActivity extends BaseActivity {
 		Log.e(TAG,"user.getMUserNick()"+user.getMUserNick());
 		new DownloadContactListTask(LoginActivity.this,currentUsername).execute();
 		new DownloadGroupListTask(LoginActivity.this,currentUsername).execute();
-
 		try {
 			// ** 第一次登录或者之前logout后再登录，加载所有本地群和回话
 			// ** manually load all local groups and
