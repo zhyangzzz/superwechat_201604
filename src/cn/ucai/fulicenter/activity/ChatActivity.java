@@ -98,7 +98,6 @@ import cn.ucai.fulicenter.adapter.ExpressionPagerAdapter;
 import cn.ucai.fulicenter.adapter.MessageAdapter;
 import cn.ucai.fulicenter.adapter.VoicePlayClickListener;
 import cn.ucai.fulicenter.domain.RobotUser;
-import cn.ucai.fulicenter.task.DownloadMemberMapTask;
 import cn.ucai.fulicenter.utils.CommonUtils;
 import cn.ucai.fulicenter.utils.ImageUtils;
 import cn.ucai.fulicenter.utils.SmileUtils;
@@ -427,7 +426,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	            forwardMessage(forward_msg_id);
 	        }
 		}
-		setUpdateMemberListener();
 	}
 
 	protected void onConversationInit(){
@@ -523,8 +521,7 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
         }else{
             ((TextView) findViewById(R.id.name)).setText(toChatUsername);
         }
-		new DownloadMemberMapTask(getApplicationContext(),toChatUsername).execute();
-        
+
         // 监听当前会话的群聊解散被T事件
         groupListener = new GroupListener();
         EMGroupManager.getInstance().addGroupChangeListener(groupListener);
@@ -1246,19 +1243,19 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	 * 
 	 * @param view
 	 */
-	public void toGroupDetails(View view) {
-		if (room == null && group == null) {
-			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_LONG).show();
-			return;
-		}
-		if(chatType == CHATTYPE_GROUP){
-			startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
-		}else{
-			startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
-					REQUEST_CODE_GROUP_DETAIL);
-		}
-	}
+//	public void toGroupDetails(View view) {
+//		if (room == null && group == null) {
+//			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_LONG).show();
+//			return;
+//		}
+//		if(chatType == CHATTYPE_GROUP){
+////			startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
+////					REQUEST_CODE_GROUP_DETAIL);
+//		}else{
+//			startActivityForResult((new Intent(this, ChatRoomDetailsActivity.class).putExtra("roomId", toChatUsername)),
+//					REQUEST_CODE_GROUP_DETAIL);
+//		}
+//	}
 
 	/**
 	 * 显示或隐藏图标按钮页
@@ -1476,9 +1473,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 		activityInstance = null;
 		if(groupListener != null){
 		    EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
-		}
-		if(mReceiver!=null){
-			unregisterReceiver(mReceiver);
 		}
 	}
 
@@ -1729,8 +1723,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
 						Toast.makeText(ChatActivity.this, st13, Toast.LENGTH_SHORT).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+//						if (GroupDetailsActivity.instance != null)
+//							GroupDetailsActivity.instance.finish();
 						finish();
 					}
 				}
@@ -1746,8 +1740,8 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
 						Toast.makeText(ChatActivity.this, st14, Toast.LENGTH_SHORT).show();
-						if (GroupDetailsActivity.instance != null)
-							GroupDetailsActivity.instance.finish();
+//						if (GroupDetailsActivity.instance != null)
+//							GroupDetailsActivity.instance.finish();
 						finish();
 					}
 				}
@@ -1764,17 +1758,6 @@ public class ChatActivity extends BaseActivity implements OnClickListener, EMEve
 	public ListView getListView() {
 		return listView;
 	}
-	class UpdateMemberListener extends BroadcastReceiver{
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			adapter.notifyDataSetChanged();
-		}
-	}
-	UpdateMemberListener mReceiver;
-	private void setUpdateMemberListener(){
-		mReceiver = new UpdateMemberListener();
-		IntentFilter filter = new IntentFilter("update_member_list");
-		registerReceiver(mReceiver,filter);
-	}
+
 
 }
