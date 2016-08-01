@@ -207,8 +207,7 @@ public class LoginActivity extends BaseActivity {
 						}else{
 							pd.dismiss();
 							Toast.makeText(getApplicationContext(),
-									R.string.Login_failed+
-											Utils.getResourceString(LoginActivity.this,result.getRetCode()),
+									R.string.Login_failed,
 									Toast.LENGTH_LONG).show();
 						}
 					}
