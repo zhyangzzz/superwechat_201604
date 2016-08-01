@@ -1,5 +1,8 @@
 package cn.ucai.fulicenter.bean;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -39,6 +42,16 @@ public class GoodDetailsBean implements Serializable{
     private String goodsImg;
     private long addTime;
     private String shareUrl;
+    @JsonProperty("isPromote")
+    private boolean isPromote;
+    @JsonIgnore
+    public boolean isPromote() {
+        return isPromote;
+    }
+
+    public void setPromote(boolean promote) {
+        isPromote = promote;
+    }
 
     private PropertyBean[] properties;
 
@@ -179,6 +192,7 @@ public class GoodDetailsBean implements Serializable{
                 ", goodsImg='" + goodsImg + '\'' +
                 ", addTime=" + addTime +
                 ", shareUrl='" + shareUrl + '\'' +
+                ", isPromote=" + isPromote +
                 ", properties=" + Arrays.toString(properties) +
                 '}';
     }
