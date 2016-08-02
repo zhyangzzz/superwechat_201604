@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class NewGoodFragment extends Fragment {
     GoodAdapter mAdapter;
     List<NewGoodBean> mGoodList;
     int pageId = 1;
+    TextView tvHint;
     public NewGoodFragment() {
 
     }
@@ -45,7 +47,23 @@ public class NewGoodFragment extends Fragment {
         mGoodList = new ArrayList<NewGoodBean>();
         initView(layout);
         initData();
+        setListener();
         return layout;
+    }
+
+    private void setListener() {
+        setPullDownRefreshListener();
+    }
+
+    private void setPullDownRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                tvHint.setVisibility(View.VISIBLE);
+                pageId = 1;
+                initData();
+            }
+        });
     }
 
     private void initData() {
@@ -53,6 +71,8 @@ public class NewGoodFragment extends Fragment {
             @Override
             public void onSuccess(NewGoodBean[] result) {
                 Log.e(TAG,"result="+result);
+                tvHint.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setRefreshing(false);
                 if (result!=null){
                     Log.e(TAG,"result.length="+result.length);
                     ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(result);
@@ -90,6 +110,7 @@ public class NewGoodFragment extends Fragment {
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mAdapter = new GoodAdapter(mContext,mGoodList);
         mRecyclerView.setAdapter(mAdapter);
+        tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
     }
 
 }
