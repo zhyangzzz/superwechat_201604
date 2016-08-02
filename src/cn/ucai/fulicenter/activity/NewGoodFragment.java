@@ -80,6 +80,10 @@ public class NewGoodFragment extends Fragment {
                 int l = mGridLayoutManager.findLastVisibleItemPosition();
                 Log.e(TAG,"f="+f+",l="+l);
                 lastItemPosition = mGridLayoutManager.findLastVisibleItemPosition();
+                mSwipeRefreshLayout.setEnabled(mGridLayoutManager.findFirstVisibleItemPosition()==0);
+                if (f==-1||l==-1){
+                    lastItemPosition = mAdapter.getItemCount()-1;
+                }
             }
         });
     }
