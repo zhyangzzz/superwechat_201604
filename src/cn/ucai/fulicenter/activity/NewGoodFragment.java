@@ -34,6 +34,7 @@ public class NewGoodFragment extends Fragment {
     List<NewGoodBean> mGoodList;
     int pageId = 0;
     TextView tvHint;
+    int action = I.ACTION_DOWNLOAD;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,@Nullable ViewGroup container,
@@ -65,6 +66,7 @@ public class NewGoodFragment extends Fragment {
                 if (newState==RecyclerView.SCROLL_STATE_IDLE
                         && lastItemPosition==mAdapter.getItemCount()-1){
                     if (mAdapter.isMore()) {
+                        action = I.ACTION_PULL_UP;
                         pageId += I.PAGE_SIZE_DEFAULT;
                         initData();
                     }
@@ -86,6 +88,7 @@ public class NewGoodFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                action = I.ACTION_PULL_DOWN;
                 pageId = 0;
                 mSwipeRefreshLayout.setRefreshing(true);
                 tvHint.setVisibility(View.VISIBLE);
@@ -106,11 +109,18 @@ public class NewGoodFragment extends Fragment {
                 if (result!=null){
                     Log.e(TAG,"result.length="+result.length);
                     ArrayList<NewGoodBean> goodBeanArrayList = Utils.array2List(result);
-                    mAdapter.initItem(goodBeanArrayList);
+                    if (action==I.ACTION_DOWNLOAD||action==I.ACTION_PULL_DOWN) {
+                        mAdapter.initItem(goodBeanArrayList);
+                    }else{
+                        mAdapter.addItem(goodBeanArrayList);
+                    }
                     if (goodBeanArrayList.size()<I.PAGE_SIZE_DEFAULT){
                         mAdapter.setMore(false);
                         mAdapter.setFooterString(getResources().getString(R.string.no_more));
                     }
+                }else{
+                    mAdapter.setMore(false);
+                    mAdapter.setFooterString(getResources().getString(R.string.no_more));
                 }
             }
 
