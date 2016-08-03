@@ -46,7 +46,7 @@
                 android:src="@drawable/bg_cart_selected" />
 
             <TextView
-                android:id="@+id/tv_cartCount"
+                android:id="@+id/tv_cart_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
