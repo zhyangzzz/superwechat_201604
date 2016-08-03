@@ -20,6 +20,8 @@ public class FuliCenterMainActivity extends BaseActivity{
     int index;
     int currentIndex;
     NewGoodFragment mNewGoodFragment;
+    BoutiqueFragment mBoutiqueFragment;
+    boolean add = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,33 @@ public class FuliCenterMainActivity extends BaseActivity{
         switch (view.getId()){
             case R.id.layout_new_good:
                 index = 0;
+                if(!add==false) {
+                    mNewGoodFragment = new NewGoodFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container, mNewGoodFragment)
+                            .show(mNewGoodFragment)
+                            .commit();
+                }else{
+                    getSupportFragmentManager().beginTransaction()
+                            .hide(mBoutiqueFragment)
+                            .show(mNewGoodFragment)
+                            .commit();
+                }
                 break;
             case R.id.layout_boutique:
                 index = 1;
+                if(!add==false) {
+                    mBoutiqueFragment = new BoutiqueFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragment_container, mBoutiqueFragment)
+                            .show(mBoutiqueFragment)
+                            .commit();
+                }else{
+                    getSupportFragmentManager().beginTransaction()
+                            .hide(mNewGoodFragment)
+                            .show(mBoutiqueFragment)
+                            .commit();
+                }
                 break;
             case R.id.layout_category:
                 index = 2;
