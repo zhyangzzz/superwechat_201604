@@ -1,6 +1,8 @@
 package cn.ucai.fulicenter.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -21,14 +23,29 @@ public class FuliCenterMainActivity extends BaseActivity{
     int currentIndex;
     NewGoodFragment mNewGoodFragment;
     BoutiqueFragment mBoutiqueFragment;
-    boolean add = true;
-
+    Fragment[] mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fulicenter_main);
         initView();
+        initFragment();
 
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, mNewGoodFragment)
+                .add(R.id.fragment_container, mBoutiqueFragment)
+                .hide(mBoutiqueFragment)
+                .show(mNewGoodFragment)
+                .commit();
+
+    }
+
+    private void initFragment() {
+        mNewGoodFragment = new NewGoodFragment();
+        mBoutiqueFragment = new BoutiqueFragment();
+        mFragment = new Fragment[5];
+        mFragment[0] = mNewGoodFragment;
+        mFragment[1] = mBoutiqueFragment;
     }
 
     private void initView() {
@@ -45,47 +62,15 @@ public class FuliCenterMainActivity extends BaseActivity{
         mrbTabs[2] = rbCategory;
         mrbTabs[3] = rbCart;
         mrbTabs[4] = rbPersonalCenter;
-
-        mNewGoodFragment = new NewGoodFragment();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, mNewGoodFragment)
-//                .add(R.id.fragment_container, contactListFragment)
-//                .hide(contactListFragment)
-                .show(mNewGoodFragment)
-                .commit();
     }
 
     public void onCheckedChange(View view){
         switch (view.getId()){
             case R.id.layout_new_good:
                 index = 0;
-                if(!add==false) {
-                    mNewGoodFragment = new NewGoodFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragment_container, mNewGoodFragment)
-                            .show(mNewGoodFragment)
-                            .commit();
-                }else{
-                    getSupportFragmentManager().beginTransaction()
-                            .hide(mBoutiqueFragment)
-                            .show(mNewGoodFragment)
-                            .commit();
-                }
                 break;
             case R.id.layout_boutique:
                 index = 1;
-                if(!add==false) {
-                    mBoutiqueFragment = new BoutiqueFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.fragment_container, mBoutiqueFragment)
-                            .show(mBoutiqueFragment)
-                            .commit();
-                }else{
-                    getSupportFragmentManager().beginTransaction()
-                            .hide(mNewGoodFragment)
-                            .show(mBoutiqueFragment)
-                            .commit();
-                }
                 break;
             case R.id.layout_category:
                 index = 2;
@@ -99,6 +84,12 @@ public class FuliCenterMainActivity extends BaseActivity{
         }
         Log.e(TAG,"index="+index+",currentIndex="+currentIndex);
         if (index!=currentIndex){
+            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
+            trx.hide(mFragment[currentIndex]);
+            if (!mFragment[index].isAdded()) {
+                trx.add(R.id.fragment_container, mFragment[index]);
+            }
+            trx.show(mFragment[index]).commit();
             setRadioButtonStatus(index);
             currentIndex = index;
         }
