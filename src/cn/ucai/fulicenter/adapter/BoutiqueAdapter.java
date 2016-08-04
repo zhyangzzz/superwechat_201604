@@ -28,7 +28,7 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     Context mContext;
     List<BoutiqueBean> mBoutiqueList;
     BoutiqueViewHolder mBoutiqueViewHolder;
-    FooterViewHolder mFooterViewHolder;
+//    FooterViewHolder mFooterViewHolder;
     boolean isMore;
     String footerString;
 
@@ -84,24 +84,25 @@ public class BoutiqueAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         }
-        if(holder instanceof FooterViewHolder){
-            mFooterViewHolder = (FooterViewHolder) holder;
-            mFooterViewHolder.tvFooter.setText(footerString);
-        }
+//        if(holder instanceof FooterViewHolder){
+//            mFooterViewHolder = (FooterViewHolder) holder;
+//            mFooterViewHolder.tvFooter.setText(footerString);
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return mBoutiqueList!=null?mBoutiqueList.size()+1:1;
+        return mBoutiqueList!=null?mBoutiqueList.size():0;
+//        return mBoutiqueList!=null?mBoutiqueList.size()+1:1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position==getItemCount()-1){
-            return I.TYPE_FOOTER;
-        }else{
+//        if (position==getItemCount()-1){
+//            return I.TYPE_FOOTER;
+//        }else{
             return I.TYPE_ITEM;
-        }
+//        }
 
     }
 
