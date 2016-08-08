@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ public class FuliCenterMainActivity extends BaseActivity{
     NewGoodFragment mNewGoodFragment;
     BoutiqueFragment mBoutiqueFragment;
     CategoryFragment mCategoryFragment;
+    PersonalCenterFragment mPersonCenterFragment;
     Fragment[] mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +46,12 @@ public class FuliCenterMainActivity extends BaseActivity{
         mNewGoodFragment = new NewGoodFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
+        mPersonCenterFragment = new PersonalCenterFragment();
         mFragment = new Fragment[5];
         mFragment[0] = mNewGoodFragment;
         mFragment[1] = mBoutiqueFragment;
         mFragment[2] = mCategoryFragment;
+        mFragment[4] = mPersonCenterFragment;
     }
 
     private void initView() {
