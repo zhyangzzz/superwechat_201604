@@ -99,6 +99,7 @@ public class FuliCenterMainActivity extends BaseActivity{
         setFragment();
     }
     private void setFragment(){
+        Log.e(TAG,"index="+index+",currentIndex="+currentIndex);
         if (index!=currentIndex){
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(mFragment[currentIndex]);
@@ -128,11 +129,10 @@ public class FuliCenterMainActivity extends BaseActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG,"onActivityResult");
         if (requestCode==ACTION_LOGIN){
             if (DemoHXSDKHelper.getInstance().isLogined()){
-
-            }else{
-                setRadioButtonStatus(currentIndex);
+                index = 4;
             }
         }
     }
@@ -141,14 +141,10 @@ public class FuliCenterMainActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
         Log.e(TAG,"onResume");
-        if (DemoHXSDKHelper.getInstance().isLogined()){
-
-        }else{
-            index = currentIndex;
-            if (index==4){
-                index = 0;
-            }
-            setFragment();
+        if (!DemoHXSDKHelper.getInstance().isLogined()&&index==4){
+            index = 0;
         }
+        setFragment();
+        setRadioButtonStatus(currentIndex);
     }
 }
