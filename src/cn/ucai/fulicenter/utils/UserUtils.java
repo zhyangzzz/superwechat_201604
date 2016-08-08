@@ -132,9 +132,7 @@ public class UserUtils {
 		path.append(I.QUESTION).append(I.KEY_REQUEST)
 				.append(I.EQUALS).append(I.REQUEST_DOWNLOAD_AVATAR)
 				.append(I.AND)
-				.append(I.NAME_OR_HXID).append(I.EQUALS).append(username)
-				.append(I.AND)
-				.append(I.AVATAR_TYPE).append(I.EQUALS).append(I.AVATAR_TYPE_USER_PATH);
+				.append(I.AVATAR_TYPE).append(I.EQUALS).append(username);
 		Log.e(TAG,"path="+path.toString());
 		return path.toString();
 
