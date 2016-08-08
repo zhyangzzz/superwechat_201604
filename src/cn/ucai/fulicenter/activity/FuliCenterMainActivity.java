@@ -1,5 +1,6 @@
 package cn.ucai.fulicenter.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.R;
 
 /**
@@ -25,6 +27,7 @@ public class FuliCenterMainActivity extends BaseActivity{
     CategoryFragment mCategoryFragment;
     PersonalCenterFragment mPersonCenterFragment;
     Fragment[] mFragment;
+    public static final int ACTION_LOGIN = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +88,17 @@ public class FuliCenterMainActivity extends BaseActivity{
                 index = 3;
                 break;
             case R.id.layout_personal_center:
-                index = 4;
+                if (DemoHXSDKHelper.getInstance().isLogined()) {
+                    index = 4;
+                }else{
+                    gotoLogin();
+                }
                 break;
         }
         Log.e(TAG,"index="+index+",currentIndex="+currentIndex);
+        setFragment();
+    }
+    private void setFragment(){
         if (index!=currentIndex){
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(mFragment[currentIndex]);
@@ -101,6 +111,10 @@ public class FuliCenterMainActivity extends BaseActivity{
         }
     }
 
+    private void gotoLogin() {
+        startActivityForResult(new Intent(this,LoginActivity.class),ACTION_LOGIN);
+    }
+
     private void setRadioButtonStatus(int index) {
         for (int i=0;i<mrbTabs.length;i++){
             if (index==i){
@@ -108,6 +122,33 @@ public class FuliCenterMainActivity extends BaseActivity{
             }else{
                 mrbTabs[i].setChecked(false);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==ACTION_LOGIN){
+            if (DemoHXSDKHelper.getInstance().isLogined()){
+
+            }else{
+                setRadioButtonStatus(currentIndex);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG,"onResume");
+        if (DemoHXSDKHelper.getInstance().isLogined()){
+
+        }else{
+            index = currentIndex;
+            if (index==4){
+                index = 0;
+            }
+            setFragment();
         }
     }
 }

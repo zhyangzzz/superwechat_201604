@@ -98,13 +98,14 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	private void initView() {
+		DisplayUtils.initBackWithTitle(this,"注册");
 		userNameEditText = (EditText) findViewById(R.id.username);
 		userNickEditText = (EditText) findViewById(R.id.nick);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		confirmPwdEditText = (EditText) findViewById(R.id.confirm_password);
 		layoutAvatar = (RelativeLayout) findViewById(R.id.layout_register_avatar);
 		imAvatar = (ImageView) findViewById(R.id.iv_avatar);
-		DisplayUtils.initBackWithTitle(this,"账户登录");
+
 
 	}
 
