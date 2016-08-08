@@ -66,6 +66,7 @@ public class PersonalCenterFragment extends Fragment {
         MyClickListener listener = new MyClickListener();
         mtvSettings.setOnClickListener(listener);
         layoutUserCenter.setOnClickListener(listener);
+        layoutCollect.setOnClickListener(listener);
         updateCollectCountListener();
     }
     class MyClickListener implements View.OnClickListener{
@@ -76,6 +77,9 @@ public class PersonalCenterFragment extends Fragment {
                     case R.id.tv_center_settings:
                     case R.id.center_user_info:
                         startActivity(new Intent(mContext,SettingsActivity.class));
+                        break;
+                    case R.id.layout_center_collect:
+                        startActivity(new Intent(mContext,CollectActivity.class));
                         break;
                 }
             }else{

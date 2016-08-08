@@ -102,6 +102,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+        <!-- collect activity -->
+        <activity
+            android:name="cn.ucai.fulicenter.activity.CollectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
 
         <!-- 注册 -->
         <activity
