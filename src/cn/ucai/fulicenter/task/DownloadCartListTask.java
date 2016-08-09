@@ -44,6 +44,7 @@ public class DownloadCartListTask {
                         Log.e(TAG,"s="+s);
                         if (s!=null){
                             ArrayList<CartBean> list = Utils.array2List(s);
+                            Log.e(TAG,"cart list size="+list.size());
                             List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
                             for (final CartBean cart:list){
                                 if (!cartList.contains(cart)){
