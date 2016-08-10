@@ -25,6 +25,7 @@ import cn.ucai.fulicenter.bean.Result;
  * Created by clawpo on 16/3/28.
  */
 public class Utils {
+    private static final String TAG = Utils.class.getSimpleName();
     public static String getPackageName(Context context){
         return context.getPackageName();
     }
@@ -241,6 +242,7 @@ public class Utils {
         List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
         for (CartBean cart:cartList){
             count += cart.getCount();
+            Log.e(TAG,"count="+count);
         }
         return count;
     }

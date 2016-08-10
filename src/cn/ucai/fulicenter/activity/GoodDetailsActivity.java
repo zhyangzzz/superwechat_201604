@@ -149,6 +149,7 @@ public class GoodDetailsActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
         initCollectStatus();
+        updateCartNum();
     }
 
     private void initCollectStatus() {
