@@ -1,6 +1,10 @@
 package cn.ucai.fulicenter.activity;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +27,7 @@ import cn.ucai.fulicenter.adapter.BoutiqueAdapter;
 import cn.ucai.fulicenter.adapter.CartAdapter;
 import cn.ucai.fulicenter.bean.BoutiqueBean;
 import cn.ucai.fulicenter.bean.CartBean;
+import cn.ucai.fulicenter.bean.GoodDetailsBean;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
 import cn.ucai.fulicenter.utils.Utils;
 
@@ -35,6 +40,10 @@ public class CartFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
+    TextView tvSumPrice;
+    TextView tvSavePrice;
+    TextView tvBuy;
+    TextView tvNothing;
     CartAdapter mAdapter;
     List<CartBean> mCartList;
     int pageId = 0;
@@ -48,7 +57,6 @@ public class CartFragment extends Fragment {
         View layout = View.inflate(mContext, R.layout.fragment_cart, null);
         mCartList = new ArrayList<CartBean>();
         initView(layout);
-        initData();
         setListener();
         return layout;
     }
@@ -56,6 +64,13 @@ public class CartFragment extends Fragment {
     private void setListener() {
         setPullDownRefreshListener();
         setPullUpRefreshListener();
+        setUpdateCartListener();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     private void setPullUpRefreshListener() {
@@ -123,8 +138,14 @@ public class CartFragment extends Fragment {
             if (mCartList.size()<I.PAGE_SIZE_DEFAULT){
                 mAdapter.setMore(false);
             }
+            tvNothing.setVisibility(View.GONE);
+            sumPrice();
+            mRecyclerView.setVisibility(View.VISIBLE);
         }else{
             mAdapter.setMore(false);
+            tvNothing.setVisibility(View.VISIBLE);
+            sumPrice();
+            mRecyclerView.setVisibility(View.GONE);
         }
     }
 
@@ -138,10 +159,56 @@ public class CartFragment extends Fragment {
         );
         mRecyclerView = (RecyclerView) layout.findViewById(R.id.rv_cart);
         mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mAdapter = new CartAdapter(mContext,mCartList);
         mRecyclerView.setAdapter(mAdapter);
         tvHint = (TextView) layout.findViewById(R.id.tv_refresh_hint);
+        tvSavePrice = (TextView) layout.findViewById(R.id.tv_cart_save_price);
+        tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
+        tvBuy = (TextView) layout.findViewById(R.id.tv_cart_buy);
+        tvNothing = (TextView) layout.findViewById(R.id.tv_nothing);
+    }
+    class UpdateCartReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initData();
+        }
+    }
+    UpdateCartReceiver mReceiver;
+    private void setUpdateCartListener(){
+        mReceiver = new UpdateCartReceiver();
+        IntentFilter filter = new IntentFilter("update_cart_list");
+        mContext.registerReceiver(mReceiver,filter);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mReceiver!=null){
+            mContext.unregisterReceiver(mReceiver);
+        }
+    }
+    private void sumPrice(){
+        int sumPrice = 0;
+        int rankPrice = 0;
+        if (mCartList!=null&&mCartList.size()>0){
+            for (CartBean cart : mCartList){
+                GoodDetailsBean good = cart.getGoods();
+                if (good!=null&&cart.isChecked()){
+                    sumPrice += convertPrice(good.getCurrencyPrice())*cart.getCount();
+                    rankPrice += convertPrice(good.getRankPrice())*cart.getCount();
+                }
+            }
+            tvSumPrice.setText("合计: ¥"+sumPrice);
+            tvSavePrice.setText("节省: ¥"+(sumPrice-rankPrice));
+        }else{
+            tvSumPrice.setText("合计: ¥00.00");
+            tvSavePrice.setText("节省: ¥00.00");
+        }
+    }
+    private int convertPrice(String price){
+        price = price.substring(1,price.length());
+        return Integer.parseInt(price);
+    }
 }
