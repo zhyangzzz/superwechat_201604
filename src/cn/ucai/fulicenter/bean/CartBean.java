@@ -88,4 +88,20 @@ public class CartBean implements Serializable{
                 ", goods=" + goods.toString() +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CartBean cartBean = (CartBean) o;
+
+        return id == cartBean.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

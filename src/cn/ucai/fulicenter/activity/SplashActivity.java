@@ -105,14 +105,7 @@ public class SplashActivity extends BaseActivity {
 					}
 					new DownloadContactListTask(SplashActivity.this,username).execute();
 					new DownloadCollectCountTask(SplashActivity.this,username).execute();
-					List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
-					if (cartList!=null&&cartList.size()>0){
-						Log.e(TAG,"cartList.size="+cartList.size());
-						cartList.clear();
-						new DownloadCartListTask(SplashActivity.this,username).execute();
-					}else {
-						new DownloadCartListTask(SplashActivity.this, username).execute();
-					}
+					new DownloadCartListTask(SplashActivity.this,username).execute();
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {
