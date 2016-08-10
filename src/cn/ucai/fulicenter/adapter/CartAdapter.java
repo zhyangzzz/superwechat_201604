@@ -3,6 +3,7 @@ package cn.ucai.fulicenter.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,8 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     new UpdateCartTask(mContext,cart).execute();
                 }
             });
+            mCartViewHolder.ivCartAdd.setOnClickListener(new ChangeCountListener(cart,1));
+            mCartViewHolder.ivCartDel.setOnClickListener(new ChangeCountListener(cart,-1));
         }
     }
 
@@ -119,6 +122,20 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvCartCount = (TextView) itemView.findViewById(R.id.tv_cart_count);
             tvCartPrice = (TextView) itemView.findViewById(R.id.tv_cart_price);
 
+        }
+    }
+    class ChangeCountListener implements View.OnClickListener{
+        CartBean cartBean;
+        int setCount;
+        public ChangeCountListener(CartBean cart, int count) {
+            this.cartBean = cart;
+            this.setCount = count;
+        }
+        @Override
+        public void onClick(View view) {
+           this.cartBean.setCount(cartBean.getCount()+setCount);
+            Log.e("listener","count="+cartBean.getCount());
+            new UpdateCartTask(mContext,cartBean).execute();
         }
     }
 
