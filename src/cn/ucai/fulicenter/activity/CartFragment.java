@@ -168,6 +168,8 @@ public class CartFragment extends Fragment {
         tvSumPrice = (TextView) layout.findViewById(R.id.tv_cart_sum_price);
         tvBuy = (TextView) layout.findViewById(R.id.tv_cart_buy);
         tvNothing = (TextView) layout.findViewById(R.id.tv_nothing);
+        tvNothing.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
     class UpdateCartReceiver extends BroadcastReceiver{
         @Override
@@ -190,9 +192,9 @@ public class CartFragment extends Fragment {
         }
     }
     private void sumPrice(){
-        int sumPrice = 0;
-        int rankPrice = 0;
         if (mCartList!=null&&mCartList.size()>0){
+            int sumPrice = 0;
+            int rankPrice = 0;
             for (CartBean cart : mCartList){
                 GoodDetailsBean good = cart.getGoods();
                 if (good!=null&&cart.isChecked()){

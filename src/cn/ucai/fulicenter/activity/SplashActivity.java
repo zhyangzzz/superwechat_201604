@@ -12,10 +12,14 @@ import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMGroupManager;
+
+import java.util.List;
+
 import cn.ucai.fulicenter.DemoHXSDKHelper;
 import cn.ucai.fulicenter.I;
 import cn.ucai.fulicenter.R;
 import cn.ucai.fulicenter.FuliCenterApplication;
+import cn.ucai.fulicenter.bean.CartBean;
 import cn.ucai.fulicenter.bean.Result;
 import cn.ucai.fulicenter.bean.UserAvatar;
 import cn.ucai.fulicenter.data.OkHttpUtils2;
@@ -101,7 +105,14 @@ public class SplashActivity extends BaseActivity {
 					}
 					new DownloadContactListTask(SplashActivity.this,username).execute();
 					new DownloadCollectCountTask(SplashActivity.this,username).execute();
-					new DownloadCartListTask(SplashActivity.this,username).execute();
+					List<CartBean> cartList = FuliCenterApplication.getInstance().getCartList();
+					if (cartList!=null&&cartList.size()>0){
+						Log.e(TAG,"cartList.size="+cartList.size());
+						cartList.clear();
+						new DownloadCartListTask(SplashActivity.this,username).execute();
+					}else {
+						new DownloadCartListTask(SplashActivity.this, username).execute();
+					}
 					long costTime = System.currentTimeMillis() - start;
 					//等待sleeptime时长
 					if (sleepTime - costTime > 0) {
