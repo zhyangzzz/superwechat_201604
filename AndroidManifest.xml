@@ -86,6 +86,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide">
         </activity>
+        <!-- Buy Activity -->
+        <activity
+            android:name="cn.ucai.fulicenter.activity.BuyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/horizontal_slide">
+        </activity>
         <!-- 精选二级页面 -->
         <activity
             android:name="cn.ucai.fulicenter.activity.BoutiqueChildActivity"
