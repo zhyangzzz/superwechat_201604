@@ -209,6 +209,8 @@ public class GoodDetailsActivity extends BaseActivity{
         boolean isExits = false;
         for (CartBean cartBean:cartList){
             if (cartBean.getGoodsId()==mGoodId){
+                cart.setId(cartBean.getId());
+                cart.setGoodsId(mGoodId);
                 cart.setChecked(cartBean.isChecked());
                 cart.setCount(cartBean.getCount()+1);
                 cart.setGoods(mGoodDetails);
@@ -218,6 +220,7 @@ public class GoodDetailsActivity extends BaseActivity{
         }
         Log.e(TAG,"addCart...isExits"+isExits);
         if (!isExits){
+            cart.setGoodsId(mGoodId);
             cart.setChecked(true);
             cart.setCount(1);
             cart.setGoods(mGoodDetails);
